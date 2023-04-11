@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mydapr-component
+  name: mydapr-component
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mydapr-component
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: mydapr-component
+      annotations:
+        dapr.io/pluggable-components: "dapr-pluggable-component" ## the name of the pluggable component container separated by `,`, e.g "componentA,componentB".
+        dapr.io/app-id: "my-app"
+        dapr.io/enabled: "true"
+        dapr.io/log-level: "debug"
+    spec:
+      securityContext:
+        runAsUser: 5678
+      containers:
+        - image: ghcr.io/fjvela/dapr/pluggable-component:latest
+          imagePullPolicy: Always
+          name: dapr-pluggable-component
+          env:
+          - name: Logging__LogLevel__Default
+            value: Trace
+        - name: webapi
+          imagePullPolicy: Always
+          image:  ghcr.io/fjvela/dapr/my-webapi:latest
+---
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: prod-mystore
+spec:
+  type: bindings.my-component
+  version: v1
+  metadata:
+  - name: brokers
+    value: localhost:9092

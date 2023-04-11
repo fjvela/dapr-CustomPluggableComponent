@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>237aaddc-c076-4dbf-accd-aacdd808263b</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\dapr\proto\components\v1\bindings.proto" ProtoRoot="Protos" GrpcServices="Client,Server" />
+    <Protobuf Include="Protos\dapr\proto\components\v1\pubsub.proto" ProtoRoot="Protos" GrpcServices="Client,Server" />
+    <Protobuf Include="Protos\dapr\proto\components\v1\state.proto" ProtoRoot="Protos" GrpcServices="Client,Server" />
+    <Protobuf Include="Protos\dapr\proto\components\v1\common.proto" ProtoRoot="Protos" GrpcServices="Client" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Api.CommonProtos" Version="2.8.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.52.0" />
+    <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.52.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
+  </ItemGroup>
+
+</Project>
